@@ -1,219 +1,198 @@
-# EXP No.2                                                                                                                                                       
+# EXP NO. 4 
 
 ## Date:
 
-
 ### AIM:
 
-To study and implement DDL commands and different types of constraints.
+To study and implement aggregate functions, group by and having clause with suitable
+examples.
 
 ### THEORY:
 
-**1. CREATE:**
+An aggregate function is a function that performs a calculation on a set of values, and returns a
+single value.
 
-This is used to create a new relation (table)
+Aggregate functions are often used with the GROUP BY clause of the SELECT statement. The
+GROUP BY clause splits the result-set into groups of values and the aggregate function can be
+used to return a single value for each group.
 
-**Syntax:**
+The most commonly used SQL aggregate functions are:
 
-CREATE TABLE (field_1 data_type(size),field_2 data_type(size), .. . );
-
-**2. ALTER:**
-
-This is used to add some extra fields into existing relation.
-
-**Syntax:**
-
-ALTER TABLE relation_name ADD (new field_1 data_type(size) );
-(a)ALTER TABLE ...ADD...:
-ALTER TABLE std ADD (Address CHAR(10));
-(b )ALTER TABLE...MODIFY...:
-ALTER TABLE relation_name MODIFY (field_1 newdata_type(Size)
-( c) ALTER TABLE..DROP....
-ALTER TABLE relation_name DROP COLUMN (field_name);
-(d)ALTER TABLE..RENAME...:
-ALTER TABLE relation_name RENAME COLUMN (OLD field_name) to (NEW field_name);
-
-**3. DROP TABLE:**
-
-This is used to delete the structure of a relation. It permanently deletes the records in the table.
+**● MIN() - returns the smallest value within the selected column**
 
 **Syntax:**
+```
+SELECT MIN(column_name)
+FROM table_name
+WHERE condition;
+```
 
-DROP TABLE relation_name;
+Example: SELECT MIN (Sal) FROM emp;
 
-**4.RENAME:**
-
-It is used to modify the name of the existing database object.
+**● MAX() - returns the largest value within the selected column**
 
 **Syntax:**
+```
+SELECT MAX(column_name)
+FROM table_name
+WHERE condition;
+```
+Example: SELECT MAX (Sal) FROM emp;
 
-RENAME TABLE old_relation_name TO new_relation_name;
+**● COUNT() - returns the number of rows in a set**
 
-**CONSTRAINTS:**
+**Syntax:**
+```
+SELECT COUNT(column_name)
+FROM table_name
+WHERE condition;
+```
+Example: SELECT COUNT (Sal) FROM emp;
 
-Constraints are used to specify rules for the data in a table. If there is any
-violation between the constraint and the data action, the action is aborted by the constraint. It can
-be specified when the table is created (using CREATE TABLE statement) or after the table is
-created (using ALTER TABLE statement).
+**● SUM() - returns the total sum of a numerical column**
 
-**1. NOT NULL:** When a column is defined as NOTNULL, then that column becomes a
-mandatory column. It implies that a value must be entered into the column if the record is to be
-accepted for storage in the table.
-Syntax: CREATE TABLE Table_Name (column_name data_type (size) NOT NULL, );
+**Syntax:**
+```
+SELECT SUM(column_name)
+FROM table_name
+WHERE condition;
+```
+Example: SELECT SUM (Sal) From emp;
 
-**2. UNIQUE:** The purpose of a unique key is to ensure that information in the column(s) is unique
-i.e. a value entered in column(s) defined in the unique constraint must not be repeated across the
-column(s). A table may have many unique keys.
-Syntax: CREATE TABLE Table_Name(column_name data_type(size) UNIQUE, ….);
+**● AVG() - returns the average value of a numerical column**
 
-**3. CHECK:**
-Specifies a condition that each row in the table must satisfy. To satisfy the constraint,
-each row in the table must make the condition either TRUE or unknown (due to a null).
-Syntax: CREATE TABLE Table_Name(column_name data_type(size) CHECK(logical
-expression), ….);
+**Syntax:**
+```
+SELECT AVG(column_name)
+FROM table_name
+WHERE condition;
+```
+Example: Select AVG (10, 15, 30) FROM DUAL;
 
-**4. PRIMARY KEY:**
-A field which is used to identify a record uniquely. A column or
-combination of columns can be created as primary key, which can be used as a reference from
-other tables. A table contains primary key is known as Master Table.
-● It must uniquely identify each record in a table.
-● It must contain unique values.
-● It cannot be a null field.
-● It cannot be a multi port field.
-● It should contain a minimum number of fields necessary to be called unique.
-Syntax: CREATE TABLE Table_Name(column_name data_type(size) PRIMARY KEY, ….);
+**GROUP BY:** This query is used to group all the records in a relation together for each and every
+value of a specific key(s) and then display them for a selected set of fields in the relation.
 
-**5. FOREIGN KEY:**
-It is a table level constraint. We cannot add this at column level. To reference
-any primary key column from other table this constraint can be used. The table in which the
-foreign key is defined is called a detail table. The table that defines the primary key and is
-referenced by the foreign key is called the master table.
-Syntax: CREATE TABLE Table_Name(column_name data_type(size) FOREIGN
-KEY(column_name) REFERENCES table_name);
+**Syntax:**
+```
+SELECT column_name(s)
+FROM table_name
+WHERE condition
+GROUP BY column_name(s)
+ORDER BY column_name(s);
+```
+Example: SQL> SELECT EMPNO, SUM (SALARY) FROM EMP GROUP BY EMPNO;
 
-**6. DEFAULT : **
-The DEFAULT constraint is used to insert a default value into a column. The
-default value will be added to all new records, if no other value is specified.
-Syntax: CREATE TABLE Table_Name(col_name1,col_name2,col_name3 DEFAULT ‘’);
+**GROUP BY-HAVING:** The HAVING clause was added to SQL because the WHERE keyword
+could not be used with aggregate functions. The HAVING clause must follow the GROUP BY
+clause in a query and must also precede the ORDER BY clause if used.
 
-## 1.Create a table name as "Employee" with the following attributes
+**Syntax:**
+```
+SELECT column_name(s)
+FROM table_name
+WHERE condition
+GROUP BY column_name(s)
+HAVING condition
+ORDER BY column_name(s);
+```
 
-  ![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/8c89272e-b81e-4224-95e9-9a7e0e1eb9b8)
+## 1.How many medical records does each doctor have?
 
-  **ANSWER Query:**
-
- ```
-CREATE TABLE Employee(
-eid INTEGER PRIMARY KEY AUTOINCREMENT,
-name VARCHAR(50),
-desig VARCHAR(50),
-dob DATE,
-doj DATE) 
-  ```
-
-
-**OUTPUT:**
-
-![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/18f1c931-90d7-4fb7-af43-75642670ba62)
-
-
-## 2.Write a SQL query for creating a table named "Orders" with the following attributes:
-
-![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/e1b633ed-2bf0-443f-bdba-ec07e3ac1cc2)
+.![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/a771b779-fcb7-4fb4-96c5-01ebf76e4e14)
 
 
   
   **ANSWER Query:**
 
  ```
-CREATE TABLE Orders(
-OrderID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-ProductName Varchar(50),
-Manufacturename varchar(50),
-PersonID INTEGER  not null ,
-FOREIGN KEY (PersonID )
-REFERENCES Persons(PersonID))
+select DoctorID, count(RecordID) as TotalRecords from MedicalRecords
+group by DoctorID;
+
   ```
 
 
 **OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/8eae6231-b765-4d7d-bfc5-2374df82e528)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/dbec890d-6f51-44cc-aeab-a284cfa42b6f)
+
+## 2.What is the total number of appointments scheduled by each doctor?
+
+![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/a0150ebb-997f-44f7-ba8f-793140f33a98)
+
+  
+  **ANSWER Query:**
+
+ ```
+select DoctorID, count(AppointmentID) as TotalAppointments from Appointments
+group by DoctorID;
+
+  ```
 
 
-## 3.Write a SQL query for creating a table named "Orders" with the following attributes:
+**OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/8f9905c6-2136-45a1-82f3-d697ae918afc)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/83ad356e-da42-4539-ac08-b4c7ba88ad2d)
 
+## 3.How many male and female doctors are there in each medical specialty?
+
+![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/79061d8d-b711-413d-be27-2f53ff138b1c)
 
 
   
   **ANSWER Query:**
 
  ```
-CREATE TABLE Orders(
-OrderID INTEGER NOT NULL PRIMARY KEY,
- OrderNumber  INTEGER,
-
-PersonID INTEGER  not null ,
-FOREIGN KEY (PersonID )
-REFERENCES Persons(PersonID))
+select Specialty, Gender ,count(DoctorID) as TotalDoctors from Doctors
+group by Specialty,Gender;
   ```
 
 
 **OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/cdfdeab9-5d77-4fdd-81d6-80d56326c226)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/92a0f225-8880-4b66-a870-890d9fc0fdfb)
 
+## 4.Write a SQL query to Calculate the average email length (in characters) for people who lives in Mumbai city
 
-## 4.Write a SQL Query for creating a table "Students" which already exists so use proper keyword in order to avoid error message
-
-![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/d0e33bd0-4d73-40d4-b350-9738f2781110)
+.![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/a771b779-fcb7-4fb4-96c5-01ebf76e4e14)
 
 
   
   **ANSWER Query:**
 
  ```
-CREATE TABLE IF NOT EXISTS Students (
-    id NUMBER,
-    grade VARCHAR(50),
-    year INTEGER DEFAULT 2
-);
+select avg(length (email)) as avg_email_length_below_30 from customer
+group by city
+having city='Mumbai';
 
   ```
 
 
 **OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/20f8df99-89ea-4af1-90ee-f7cfd893cf42)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/ab6d3cf6-676e-4327-a4a3-d8cf43ee150b)
 
 
-## 5.Write a SQL Query to Rename attribute "id" to employee_id  in the table employee
+## 5.Write a SQL query to find the number of employees who are having the same age removing the duplicate values.
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/01efda62-71b5-45e4-8abb-d33eecc0489c)
-
-
+![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/d1bb3d0e-09b6-42d2-a2ee-f0a7f6a9aa28)
 
   
   **ANSWER Query:**
 
  ```
-ALTER TABLE employee
-RENAME COLUMN id to employee_id;
+SELECT COUNT(distinct age) as COUNT FROM employee
 
   ```
 
 
 **OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/ea6b6666-90e8-419c-8cf4-8a30b43d1204)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/7f43600b-ff93-4bbe-b9c0-8b52a6dc7ebb)
 
 
+## 6.Write a SQL query to return the total number of rows in the 'customer' table where the city is not Noida.
 
-## 6.Write a SQL query for adding a new column named "email" with the datatype VARCHAR(100) to the  table "customer" 
-
-![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/9dbf48f0-6a25-4a8d-883c-8b72e34cc423)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/b4343171-5e54-4fab-b5f2-ba3dd7225e35)
 
 
 
@@ -221,23 +200,39 @@ RENAME COLUMN id to employee_id;
   **ANSWER Query:**
 
  ```
-Alter table customer
-add column email VARCHAR(100);
-);
+select count(distinct id) as COUNT from customer
+where city!='Noida';
 
   ```
 
 
 **OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/5e6c1a07-c2f3-4b8a-bbb5-909f155df53d)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/d24f7800-046c-4c38-8706-07a28687d90c)
+
+## 7.Write the SQL query that accomplishes the grouping of data by joining date (jdate), calculates the average work hours for each date, and excludes dates where the average work hour is not less than 10.
+
+![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/394c94a9-ab24-4f6d-9f55-2d6fe8ca836d)
 
 
+  **ANSWER Query:**
+
+ ```
+select jdate,AVG(workhour) from employee1
+group by jdate
+having AVG(workhour)<10
+
+  ```
 
 
-## 7.Write a SQL Query to Add attribute "mobilenumber"  in the table Companies 
+**OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/e1cc8427-218e-4dba-87ff-32dadc5b8547)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/eb3f67fa-783b-4d57-b584-2fbc0efa4bb5)
+
+
+## 8.Write the SQL query that achieves the grouping of data by city, calculates the average income for each city, and includes only those cities where the average income is greater than 500,000.
+
+![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/2f457bf0-dcdd-4d08-bdaa-e38cb4ae44eb)
 
 
 
@@ -245,104 +240,63 @@ add column email VARCHAR(100);
   **ANSWER Query:**
 
  ```
-ALTER TABLE Companies
-ADD COLUMN mobilenumber number;
-
-);
+select city,AVG(income) from employee
+group by city
+having AVG(income)>500000
 
   ```
 
 
 **OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/3a261dd1-b201-4d4e-be91-f4a4aad35b31)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/8e967655-330f-43e9-b37d-f35ad9cded5c)
 
+## 9.Write a SQL query to find the shortest email address in the customer table?
 
-
-## 8.Write a SQL Query for inserting the below values as multiple row format in the table "Student"
-
-![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/1a0f031a-43a9-4274-a972-87a492f27a86)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/256bf5b1-55b9-4e55-a437-ed7a3c7bd0c9)
 
 
   
   **ANSWER Query:**
 
  ```
-INSERT INTO Student(RollNo, NAME, Gender, Subject, MARKS,year)
-VALUES(3,'Jeni','Female','English',96,3),
-(4,'Bob Johnson','Male','History',90,3),
-(5,'Sharvesh', 'Male','Botany', 97,3),
-(6 ,'Mathew', 'Male','Science',85,3);
-
+SELECT name, email, LENGTH(email) AS min_email_length
+FROM customer
+WHERE LENGTH(email) = (
+    SELECT MIN(LENGTH(email))
+    FROM customer
+    WHERE email IS NOT NULL
+)
+LIMIT 1;
   ```
 
 
 **OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/7ab9d596-24a5-454a-a543-a34a5b64926f)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/79b3891b-31b3-4641-aa3b-88550ba1e8ef)
+
+## 10.Write a SQL query to find the total income of employees aged 40 or above.
+
+![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/3f079544-87fc-4299-a78c-c373901060fa)
 
 
-
-## 9.Write a SQL Query for inserting the below values in the table "Student" with out multiple rows options
-
-![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/cf011741-cef2-4bd3-bd82-da5b3aa31549)
-
-
-
-  
   **ANSWER Query:**
 
  ```
-INSERT INTO Student(RollNo, NAME, Gender, Subject, MARKS,year)
-VALUES(3,'Jeni','Female','English',96,1),
-(4,'Bob Johnson','Male','History',90,1),
-(5,'Sharvesh', 'Male','Botany', 97,1),
-(6 ,'Mathew', 'Male','Science',85,1);
-);
-
+SELECT SUM(income) AS total_income
+FROM employee
+WHERE age >= 40;
   ```
 
 
 **OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/d8d4c0ba-10a8-4308-a78f-709fbb3486ea)
-
-
-
-## 10.Write a SQL query for inserting new customer details (customer_id, name, email) from the 'old_customers' table into the 'new_customers' table with the subquery. Ensure that only customer email as "---@gmail.com"are included in the transfer.
-
-![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/94a2d925-252d-4aed-a633-38a7784c3e33)
-
-
-
-  
-  **ANSWER Query:**
-
- ```
-INSERT INTO new_customers (customer_id, name, email)
-SELECT customer_id, name, email
-FROM old_customers
-WHERE email LIKE '%@gmail.com';
-
-  ```
-
-
-**OUTPUT:**
-
-![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/ecbe08eb-7655-4e4c-a9e7-6a438b8c6f41) 
+![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/580cdcc9-141e-4a89-8789-331125a61396)
 
 ## Result:
 
-Studying and Implementing  DDL commands and different types of constraint is done successfully.
-
-
-
-
-
-
-
-
-
+Studying and Implementing aggregate functions, group by and having clause with suitable
+examples.
 
 
 
