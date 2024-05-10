@@ -1,302 +1,328 @@
-# EXP NO. 4 
+# EXP No.6                                                                                                                                                      
 
 ## Date:
 
+
 ### AIM:
 
-To study and implement aggregate functions, group by and having clause with suitable
-examples.
-
+To study and implement different types of joins
+ 
 ### THEORY:
 
-An aggregate function is a function that performs a calculation on a set of values, and returns a
-single value.
-
-Aggregate functions are often used with the GROUP BY clause of the SELECT statement. The
-GROUP BY clause splits the result-set into groups of values and the aggregate function can be
-used to return a single value for each group.
-
-The most commonly used SQL aggregate functions are:
-
-**● MIN() - returns the smallest value within the selected column**
+The SQL Joins clause is used to combine records from two or more tables in a database. A JOIN
+is a means for combining fields from two tables by using values common to each.The join is
+actually performed by the ‘where’ clause which combines specified rows of tables.
 
 **Syntax:**
-```
-SELECT MIN(column_name)
-FROM table_name
-WHERE condition;
+
+```SELECT column 1, column 2, column 3...
+FROM table_name1, table_name2
+WHERE table_name1.column name = table_name2.columnname;
 ```
 
-Example: SELECT MIN (Sal) FROM emp;
+**Types of Joins:**
 
-**● MAX() - returns the largest value within the selected column**
+● Inner Join
 
-**Syntax:**
-```
-SELECT MAX(column_name)
-FROM table_name
-WHERE condition;
-```
-Example: SELECT MAX (Sal) FROM emp;
+● Left (Outer) Join
 
-**● COUNT() - returns the number of rows in a set**
+● Right (Outer) Join
 
-**Syntax:**
-```
-SELECT COUNT(column_name)
-FROM table_name
-WHERE condition;
-```
-Example: SELECT COUNT (Sal) FROM emp;
+● Full (Outer) Join
 
-**● SUM() - returns the total sum of a numerical column**
+**INNER JOIN**
 
-**Syntax:**
-```
-SELECT SUM(column_name)
-FROM table_name
-WHERE condition;
-```
-Example: SELECT SUM (Sal) From emp;
-
-**● AVG() - returns the average value of a numerical column**
-
-**Syntax:**
-```
-SELECT AVG(column_name)
-FROM table_name
-WHERE condition;
-```
-Example: Select AVG (10, 15, 30) FROM DUAL;
-
-**GROUP BY:** This query is used to group all the records in a relation together for each and every
-value of a specific key(s) and then display them for a selected set of fields in the relation.
+The INNER JOIN keyword selects records that have matching values in both tables.
 
 **Syntax:**
 ```
 SELECT column_name(s)
-FROM table_name
-WHERE condition
-GROUP BY column_name(s)
-ORDER BY column_name(s);
+FROM table1
+INNER JOIN table2
+ON table1.column_name = table2.column_name;
 ```
-Example: SQL> SELECT EMPNO, SUM (SALARY) FROM EMP GROUP BY EMPNO;
 
-**GROUP BY-HAVING:** The HAVING clause was added to SQL because the WHERE keyword
-could not be used with aggregate functions. The HAVING clause must follow the GROUP BY
-clause in a query and must also precede the ORDER BY clause if used.
+**LEFT JOIN**
+
+The LEFT JOIN keyword returns all records from the left table (table1), and the matching
+records from the right table (table2). The result is 0 records from the right side, if there is no
+match.
 
 **Syntax:**
 ```
 SELECT column_name(s)
-FROM table_name
-WHERE condition
-GROUP BY column_name(s)
-HAVING condition
-ORDER BY column_name(s);
+FROM table1
+LEFT JOIN table2
+ON table1.column_name = table2.column_name;
 ```
 
-## 1.How many medical records does each doctor have?
+**RIGHT JOIN**
 
-.![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/a771b779-fcb7-4fb4-96c5-01ebf76e4e14)
+The RIGHT JOIN keyword returns all records from the right table (table2), and the matching
+records from the left table (table1). The result is 0 records from the left side, if there is no match.
 
+**Syntax:**
+```
+SELECT column_name(s)
+FROM table1
+RIGHT JOIN table2
+ON table1.column_name = table2.column_name;
+```
 
-  
+**FULL OUTER JOIN**
+
+The FULL OUTER JOIN keyword returns all records when there is a match in left (table1) or
+right (table2) table records.
+FULL OUTER JOIN and FULL JOIN are the same.
+
+**Syntax:**
+```
+SELECT column_name(s)
+FROM table1
+FULL OUTER JOIN table2
+ON table1.column_name = table2.column_name
+WHERE condition;
+```
+
+## 1.Write the SQL query that achieves the selection of all columns from the "patients" table (aliased as "p"), with an inner join on the "patient_id" column and conditions filtering for test results with the test names 'Blood Test' or 'Blood Pressure' and results not containing the substring 'Normal'.
+
+  ![image](https://github.com/LOKESHKUMARARI/dbmsexp6/assets/119406110/b86c0267-b242-4c74-9be2-afb3fa7e1a5f)
+
   **ANSWER Query:**
 
  ```
-select DoctorID, count(RecordID) as TotalRecords from MedicalRecords
-group by DoctorID;
+SELECT p.*
+FROM patients AS p
+JOIN test_results AS tr ON p.patient_id = tr.patient_id
+WHERE tr.test_name IN ('Blood Test', 'Blood Pressure')
+AND tr.result NOT LIKE '%Normal%';
+ 
+  ```
+
+
+**OUTPUT:**
+
+![image](https://github.com/LOKESHKUMARARI/dbmsexp6/assets/119406110/c12ebb99-4638-4e16-aaed-1b792c57d2a5)
+
+## 2.Write the SQL query that achieves the selection of the first name from the "patients" table, with an inner join on the "patient_id" column and a condition filtering for surgeries with a surgery date of '2024-01-15'.:
+
+  ![image](https://github.com/LOKESHKUMARARI/dbmsexp6/assets/119406110/a4afd216-a3c1-4e51-a28c-9c646f441751)
+
+  **ANSWER Query:**
+
+ ```
+SELECT p.first_name
+FROM patients p
+INNER JOIN surgeries s ON p.patient_id = s.patient_id
+WHERE s.surgery_date = '2024-01-15';
+
+ 
+  ```
+
+
+**OUTPUT:**
+
+![image](https://github.com/LOKESHKUMARARI/dbmsexp6/assets/119406110/5fc712f2-e5d8-4129-9eed-fbdc77319a41)
+
+## 3.Write the SQL query that achieves the selection of the "name" column from the "salesman" table (aliased as "s"), with a left join on the "salesman_id" column and a condition filtering for customers in the city 'New York'.
+
+ ![image](https://github.com/LOKESHKUMARARI/dbmsexp6/assets/119406110/aaa8cfea-ad26-4e10-9cc4-a8ea391cf61f)
+
+
+  **ANSWER Query:**
+
+ ```
+SELECT 
+    s.name
+FROM 
+    salesman s
+LEFT JOIN 
+    customer c ON s.salesman_id = c.salesman_id
+WHERE 
+    c.city = 'New York' OR c.city IS NULL;
+  ```
+
+
+**OUTPUT:**
+
+![image](https://github.com/LOKESHKUMARARI/dbmsexp6/assets/119406110/7753440b-759d-4b45-b554-96bf9d1135ce)
+
+## 4.From the following tables write a SQL query to find those orders where the order amount exists between 500 and 2000. Return ord_no, purch_amt, cust_name, city.
+
+![image](https://github.com/LOKESHKUMARARI/dbmsexp6/assets/119406110/563ef77e-7871-4a32-9885-8a1960fa6bb3)
+
+
+  **ANSWER Query:**
+
+ ```
+SELECT o.ord_no, o.purch_amt, c.cust_name, c.city
+FROM orders o
+JOIN customer c ON o.customer_id = c.customer_id
+WHERE o.purch_amt BETWEEN 500 AND 2000;
 
   ```
 
 
 **OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/dbec890d-6f51-44cc-aeab-a284cfa42b6f)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp6/assets/119406110/52083ce5-bfb5-4217-b10a-2def1e1bcd04)
 
-## 2.What is the total number of appointments scheduled by each doctor?
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/a0150ebb-997f-44f7-ba8f-793140f33a98)
+## 5.From the following tables write a SQL query to locate those salespeople who do not live in the same city where their customers live and have received a commission of more than 12% from the company. Return Customer Name, customer city, Salesman, salesman city, commission.  
 
-  
+ ![image](https://github.com/LOKESHKUMARARI/dbmsexp6/assets/119406110/f3af9909-f463-48b5-8e23-bf563324bbf2)
+
+
   **ANSWER Query:**
 
  ```
-select DoctorID, count(AppointmentID) as TotalAppointments from Appointments
-group by DoctorID;
+SELECT c.cust_name AS "Customer Name", c.city AS "city", 
+       s.name AS "Salesman", s.city AS "city ", s.commission AS "commission"
+FROM customer c
+JOIN salesman s ON c.salesman_id = s.salesman_id
+WHERE c.city <> s.city AND s.commission > 0.12;
 
   ```
 
 
 **OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/83ad356e-da42-4539-ac08-b4c7ba88ad2d)
-
-## 3.How many male and female doctors are there in each medical specialty?
-
-![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/79061d8d-b711-413d-be27-2f53ff138b1c)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp6/assets/119406110/ccfbeb22-6c07-4603-8001-a53e8a5e8198)
 
 
-  
+## 6. From the following tables write a SQL query to find salespeople who received commissions of more than 12 percent from the company. Return Customer Name, customer city, Salesman, commission.  
+
+![image](https://github.com/LOKESHKUMARARI/dbmsexp6/assets/119406110/c0fbde36-6e46-47fb-a103-fe01f055ab6a)
+
+
   **ANSWER Query:**
 
  ```
-select Specialty, Gender ,count(DoctorID) as TotalDoctors from Doctors
-group by Specialty,Gender;
+SELECT c.cust_name AS "Customer Name", c.city AS "city",
+       s.name AS "Salesman", s.commission AS "commission"
+FROM customer c
+JOIN salesman s ON c.salesman_id = s.salesman_id
+WHERE s.commission > 0.12;
   ```
 
 
 **OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/92a0f225-8880-4b66-a870-890d9fc0fdfb)
-
-## 4.Write a SQL query to Calculate the average email length (in characters) for people who lives in Mumbai city
-
-.![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/a771b779-fcb7-4fb4-96c5-01ebf76e4e14)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp6/assets/119406110/f0920d77-68ff-4f72-ae35-849b793d8d91)
 
 
-  
+## 7.Write the SQL query that achieves the selection of admission dates from the "patients" table and surgery dates from the "surgeries" table, with an inner join on the "patient_id" column.
+
+![image](https://github.com/LOKESHKUMARARI/dbmsexp6/assets/119406110/0b339282-324b-4296-b909-90bb4c3bd227)
+
+
   **ANSWER Query:**
 
  ```
-select avg(length (email)) as avg_email_length_below_30 from customer
-group by city
-having city='Mumbai';
-
-  ```
-
-
-**OUTPUT:**
-
-![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/ab6d3cf6-676e-4327-a4a3-d8cf43ee150b)
-
-
-## 5.Write a SQL query to find the number of employees who are having the same age removing the duplicate values.
-
-![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/d1bb3d0e-09b6-42d2-a2ee-f0a7f6a9aa28)
-
-  
-  **ANSWER Query:**
-
- ```
-SELECT COUNT(distinct age) as COUNT FROM employee
+SELECT p.admission_date, s.surgery_date
+FROM patients p
+INNER JOIN surgeries s ON p.patient_id = s.patient_id;
 
   ```
 
 
 **OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/7f43600b-ff93-4bbe-b9c0-8b52a6dc7ebb)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp6/assets/119406110/678e6f4a-b7c3-4ff2-b7f4-69ef26f22c55)
 
 
-## 6.Write a SQL query to return the total number of rows in the 'customer' table where the city is not Noida.
+## 8. From the following tables write a SQL query to find the salesperson(s) and the customer(s) he represents. Return Customer Name, city, Salesman, commission.
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/b4343171-5e54-4fab-b5f2-ba3dd7225e35)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp6/assets/119406110/e7e6fc1e-c235-4dd9-a628-dad02c2f74c2)
 
 
 
-  
   **ANSWER Query:**
 
  ```
-select count(distinct id) as COUNT from customer
-where city!='Noida';
+SELECT 
+    c.cust_name AS "Customer Name",
+    c.city AS "city",
+    s.name AS "Salesman",
+    s.commission AS "commission"
+FROM 
+    customer c
+JOIN 
+    salesman s ON c.salesman_id = s.salesman_id;
 
   ```
 
 
 **OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/d24f7800-046c-4c38-8706-07a28687d90c)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp6/assets/119406110/0efc0f99-ee8f-45aa-9d67-7373a5c61d81)
 
-## 7.Write the SQL query that accomplishes the grouping of data by joining date (jdate), calculates the average work hours for each date, and excludes dates where the average work hour is not less than 10.
+## 9.From the following tables write a SQL query to find the details of an order. Return ord_no, ord_date, purch_amt, Customer Name, grade, Salesman, commission. 
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/394c94a9-ab24-4f6d-9f55-2d6fe8ca836d)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp6/assets/119406110/e118e65c-7b2e-4737-9185-07b78fdc293c)
 
 
   **ANSWER Query:**
 
  ```
-select jdate,AVG(workhour) from employee1
-group by jdate
-having AVG(workhour)<10
+SELECT 
+    o.ord_no,
+    o.ord_date,
+    o.purch_amt,
+    c.cust_name AS "Customer Name",
+    c.grade,
+    s.name AS "Salesman",
+    s.commission
+FROM 
+    orders o
+JOIN 
+    customer c ON o.customer_id = c.customer_id
+JOIN 
+    salesman s ON o.salesman_id = s.salesman_id;
 
   ```
 
 
 **OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/eb3f67fa-783b-4d57-b584-2fbc0efa4bb5)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp6/assets/119406110/698d4ce2-98c1-4f14-a690-b3fdf62f2b3c)
 
 
-## 8.Write the SQL query that achieves the grouping of data by city, calculates the average income for each city, and includes only those cities where the average income is greater than 500,000.
+## 10.Write the SQL query that achieves the selection of the "cust_name" column from the "customer" table (aliased as "c"), with a left join on the "customer_id" column and a condition filtering for orders with a purchase amount less than 100.
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/2f457bf0-dcdd-4d08-bdaa-e38cb4ae44eb)
+ ![image](https://github.com/LOKESHKUMARARI/dbmsexp6/assets/119406110/eaec66f7-6fbb-4e7f-ae15-f144a6126d49)
 
 
-
-  
   **ANSWER Query:**
 
  ```
-select city,AVG(income) from employee
-group by city
-having AVG(income)>500000
+SELECT 
+    c.cust_name
+FROM 
+    customer c
+LEFT JOIN 
+    orders o ON c.customer_id = o.customer_id
+WHERE 
+    o.purch_amt < 100 OR o.purch_amt IS NULL;
 
   ```
 
 
 **OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/8e967655-330f-43e9-b37d-f35ad9cded5c)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp6/assets/119406110/1cf0510f-431b-4176-84fb-6ed701e8350d)
 
-## 9.Write a SQL query to find the shortest email address in the customer table?
-
-![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/256bf5b1-55b9-4e55-a437-ed7a3c7bd0c9)
-
-
-  
-  **ANSWER Query:**
-
- ```
-SELECT name, email, LENGTH(email) AS min_email_length
-FROM customer
-WHERE LENGTH(email) = (
-    SELECT MIN(LENGTH(email))
-    FROM customer
-    WHERE email IS NOT NULL
-)
-LIMIT 1;
-  ```
-
-
-**OUTPUT:**
-
-![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/79b3891b-31b3-4641-aa3b-88550ba1e8ef)
-
-## 10.Write a SQL query to find the total income of employees aged 40 or above.
-
-![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/3f079544-87fc-4299-a78c-c373901060fa)
-
-
-  **ANSWER Query:**
-
- ```
-SELECT SUM(income) AS total_income
-FROM employee
-WHERE age >= 40;
-  ```
-
-
-**OUTPUT:**
-
-![image](https://github.com/LOKESHKUMARARI/dbmsexp4/assets/119406110/580cdcc9-141e-4a89-8789-331125a61396)
 
 ## Result:
 
-Studying and Implementing aggregate functions, group by and having clause with suitable
-examples.
+Studying and Implementing of different types of joins is done successfully.
+
+
+
+
+
+
+
 
 
 
