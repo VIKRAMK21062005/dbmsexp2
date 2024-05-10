@@ -1,92 +1,149 @@
-# EXP No.5                                                                                                                                                      
+# EXP No.2                                                                                                                                                       
 
 ## Date:
 
 
 ### AIM:
 
-To Study & Implementation of Sub queries Views
+To study and implement DDL commands and different types of constraints.
 
 ### THEORY:
 
-**SUBQUERIES:**
+**1. CREATE:**
 
-The query within another is known as a subquery. A statement containing a subquery is called a
-parent statement. The rows returned by subquery are used by the parent statement or in other
-words A subquery is a SELECT statement that is embedded in a clause of another SELECT
-statement
-
-**You can place the subquery in a number of SQL clauses:**
-
-1) WHERE clause
-
-2) HAVING clause
-
-3) FROM clause
-
-4) OPERATORS( IN.ANY,ALL,<,>,>=,<= etc..)
-
-**Types:**
-
-**1. Sub queries that return several values**
-
-Sub queries can also return more than one value. Such results should be made use along with the
-operators in and any.
-
-**2. Multiple queries**
-
-Here more than one subquery is used. These multiple sub queries are combined by means of
-‘and’ & ‘or’ keywords.
-
-**3. Correlated subquery**
-
-A subquery is evaluated once for the entire parent statement whereas a correlated Sub query is
-evaluated once per row processed by the parent statement.
-
-**VIEW:**
-
-In SQL, a view is a virtual table based on the result-set of an SQL statement. A view contains
-rows and columns, just like a real table. The fields in a view are fields from one or more real
-tables in the database. You can add SQL functions, WHERE, and JOIN statements to a view and
-present the data as if the data were coming from one single table. A view is a virtual table, which
-consists of a set of columns from one or more tables. It is similar to a table but it does not store
-in the database. View is a query stored as an object.
+This is used to create a new relation (table)
 
 **Syntax:**
-```
-CREATE VIEW
-AS
-SELECT FROM relation_name WHERE (Condition)
-```
-**DROPPING A VIEW:**
 
-A view can be deleted with the DROP VIEW command.
+CREATE TABLE (field_1 data_type(size),field_2 data_type(size), .. . );
 
-**Syntax:**  
-```DROP VIEW ;```
+**2. ALTER:**
 
-## 1.Write a SQL query to Retrieve the medications with dosages equal to the highest dosage.
+This is used to add some extra fields into existing relation.
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp5/assets/119406110/7aef2a09-33b8-433c-89ba-c4ffc1fac49c)
+**Syntax:**
 
+ALTER TABLE relation_name ADD (new field_1 data_type(size) );
+(a)ALTER TABLE ...ADD...:
+ALTER TABLE std ADD (Address CHAR(10));
+(b )ALTER TABLE...MODIFY...:
+ALTER TABLE relation_name MODIFY (field_1 newdata_type(Size)
+( c) ALTER TABLE..DROP....
+ALTER TABLE relation_name DROP COLUMN (field_name);
+(d)ALTER TABLE..RENAME...:
+ALTER TABLE relation_name RENAME COLUMN (OLD field_name) to (NEW field_name);
 
-  
+**3. DROP TABLE:**
+
+This is used to delete the structure of a relation. It permanently deletes the records in the table.
+
+**Syntax:**
+
+DROP TABLE relation_name;
+
+**4.RENAME:**
+
+It is used to modify the name of the existing database object.
+
+**Syntax:**
+
+RENAME TABLE old_relation_name TO new_relation_name;
+
+**CONSTRAINTS:**
+
+Constraints are used to specify rules for the data in a table. If there is any
+violation between the constraint and the data action, the action is aborted by the constraint. It can
+be specified when the table is created (using CREATE TABLE statement) or after the table is
+created (using ALTER TABLE statement).
+
+**1. NOT NULL:** When a column is defined as NOTNULL, then that column becomes a
+mandatory column. It implies that a value must be entered into the column if the record is to be
+accepted for storage in the table.
+Syntax: CREATE TABLE Table_Name (column_name data_type (size) NOT NULL, );
+
+**2. UNIQUE:** The purpose of a unique key is to ensure that information in the column(s) is unique
+i.e. a value entered in column(s) defined in the unique constraint must not be repeated across the
+column(s). A table may have many unique keys.
+Syntax: CREATE TABLE Table_Name(column_name data_type(size) UNIQUE, ….);
+
+**3. CHECK:**
+Specifies a condition that each row in the table must satisfy. To satisfy the constraint,
+each row in the table must make the condition either TRUE or unknown (due to a null).
+Syntax: CREATE TABLE Table_Name(column_name data_type(size) CHECK(logical
+expression), ….);
+
+**4. PRIMARY KEY:**
+A field which is used to identify a record uniquely. A column or
+combination of columns can be created as primary key, which can be used as a reference from
+other tables. A table contains primary key is known as Master Table.
+● It must uniquely identify each record in a table.
+● It must contain unique values.
+● It cannot be a null field.
+● It cannot be a multi port field.
+● It should contain a minimum number of fields necessary to be called unique.
+Syntax: CREATE TABLE Table_Name(column_name data_type(size) PRIMARY KEY, ….);
+
+**5. FOREIGN KEY:**
+It is a table level constraint. We cannot add this at column level. To reference
+any primary key column from other table this constraint can be used. The table in which the
+foreign key is defined is called a detail table. The table that defines the primary key and is
+referenced by the foreign key is called the master table.
+Syntax: CREATE TABLE Table_Name(column_name data_type(size) FOREIGN
+KEY(column_name) REFERENCES table_name);
+
+**6. DEFAULT : **
+The DEFAULT constraint is used to insert a default value into a column. The
+default value will be added to all new records, if no other value is specified.
+Syntax: CREATE TABLE Table_Name(col_name1,col_name2,col_name3 DEFAULT ‘’);
+
+## 1.Create a table name as "Employee" with the following attributes
+
+  ![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/8c89272e-b81e-4224-95e9-9a7e0e1eb9b8)
+
   **ANSWER Query:**
 
  ```
-SELECT *
-FROM medications
-WHERE dosage = (SELECT MAX(dosage) FROM medications); 
+CREATE TABLE Employee(
+eid INTEGER PRIMARY KEY AUTOINCREMENT,
+name VARCHAR(50),
+desig VARCHAR(50),
+dob DATE,
+doj DATE) 
   ```
 
 
 **OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp5/assets/119406110/c4a1c517-1e00-4dac-a564-c781a4097aad)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/18f1c931-90d7-4fb7-af43-75642670ba62)
 
-## 2.Write a SQL query that retrieves the all the columns from the Table Grades, where the grade is equal to the minimum grade achieved in each subject.
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp5/assets/119406110/669cca71-8f71-4502-b919-372d6f17f070)
+## 2.Write a SQL query for creating a table named "Orders" with the following attributes:
+
+![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/e1b633ed-2bf0-443f-bdba-ec07e3ac1cc2)
+
+
+  
+  **ANSWER Query:**
+
+ ```
+CREATE TABLE Orders(
+OrderID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+ProductName Varchar(50),
+Manufacturename varchar(50),
+PersonID INTEGER  not null ,
+FOREIGN KEY (PersonID )
+REFERENCES Persons(PersonID))
+  ```
+
+
+**OUTPUT:**
+
+![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/8eae6231-b765-4d7d-bfc5-2374df82e528)
+
+
+## 3.Write a SQL query for creating a table named "Orders" with the following attributes:
+
+![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/8f9905c6-2136-45a1-82f3-d697ae918afc)
 
 
 
@@ -94,60 +151,47 @@ WHERE dosage = (SELECT MAX(dosage) FROM medications);
   **ANSWER Query:**
 
  ```
-SELECT *
-FROM grades t1
-WHERE grade = (
-    SELECT Min(grade)
-    FROM grades t2
-    WHERE t2.subject = t1.subject
+CREATE TABLE Orders(
+OrderID INTEGER NOT NULL PRIMARY KEY,
+ OrderNumber  INTEGER,
+
+PersonID INTEGER  not null ,
+FOREIGN KEY (PersonID )
+REFERENCES Persons(PersonID))
+  ```
+
+
+**OUTPUT:**
+
+![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/cdfdeab9-5d77-4fdd-81d6-80d56326c226)
+
+
+## 4.Write a SQL Query for creating a table "Students" which already exists so use proper keyword in order to avoid error message
+
+![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/d0e33bd0-4d73-40d4-b350-9738f2781110)
+
+
+  
+  **ANSWER Query:**
+
+ ```
+CREATE TABLE IF NOT EXISTS Students (
+    id NUMBER,
+    grade VARCHAR(50),
+    year INTEGER DEFAULT 2
 );
+
   ```
 
 
 **OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp5/assets/119406110/fc95aaf8-296c-46c6-a237-e7560dee6a28)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/20f8df99-89ea-4af1-90ee-f7cfd893cf42)
 
 
-## 3.Write a SQL query to retrieve all columns from the CUSTOMERS table for customers whose Address as Delhi and age below 30
+## 5.Write a SQL Query to Rename attribute "id" to employee_id  in the table employee
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp5/assets/119406110/348169f2-d0de-4248-90ce-f7bfb59f0ba1)
-
-
-  
-  **ANSWER Query:**
-
- ```
-SELECT * FROM CUSTOMERS
-WHERE ID IN (SELECT ID FROM CUSTOMERSWHERE Address="Delhi" and age <30);
-  ```
-
-
-**OUTPUT:**
-
-![image](https://github.com/LOKESHKUMARARI/dbmsexp5/assets/119406110/fd099ebc-f348-4e43-930c-0b108bb7ef54)
-
-
-## 4.Write a SQL query to retrieve all columns from the CUSTOMERS table for customers whose AGE is LESS than $30
-
-![image](https://github.com/LOKESHKUMARARI/dbmsexp5/assets/119406110/18693702-371d-4d84-a1ff-4d23aac40656)
-
-  
-  **ANSWER Query:**
-
- ```
-SELECT * FROM CUSTOMERS WHERE ID IN (SELECT ID FROM CUSTOMERS WHERE AGE < 30);
-  ```
-
-
-**OUTPUT:**
-
-![image](https://github.com/LOKESHKUMARARI/dbmsexp5/assets/119406110/5a4e9d66-a080-474e-83ea-092b9be7b334)
-
-
-## 5.Write a SQL query that retrieves the names of students and their corresponding grades, where the grade is equal to the minimum grade achieved in each subject.
-
-![image](https://github.com/LOKESHKUMARARI/dbmsexp5/assets/119406110/fd8938c9-8af4-48ad-ae7f-d242886a4249)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/01efda62-71b5-45e4-8abb-d33eecc0489c)
 
 
 
@@ -155,134 +199,151 @@ SELECT * FROM CUSTOMERS WHERE ID IN (SELECT ID FROM CUSTOMERS WHERE AGE < 30);
   **ANSWER Query:**
 
  ```
-SELECT student_name, grade
-FROM grades t1
-WHERE grade = (
-    SELECT MIN(grade)
-    FROM grades t2
-    WHERE t2.subject = t1.subject
+ALTER TABLE employee
+RENAME COLUMN id to employee_id;
+
+  ```
+
+
+**OUTPUT:**
+
+![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/ea6b6666-90e8-419c-8cf4-8a30b43d1204)
+
+
+
+## 6.Write a SQL query for adding a new column named "email" with the datatype VARCHAR(100) to the  table "customer" 
+
+![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/9dbf48f0-6a25-4a8d-883c-8b72e34cc423)
+
+
+
+  
+  **ANSWER Query:**
+
+ ```
+Alter table customer
+add column email VARCHAR(100);
 );
+
   ```
 
 
 **OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp5/assets/119406110/de6d098e-50c1-49c8-b24f-18bb56aa2fbd)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/5e6c1a07-c2f3-4b8a-bbb5-909f155df53d)
 
 
-## 6.From the following tables write a SQL query to find all orders generated by New York-based salespeople. Return ord_no, purch_amt, ord_date, customer_id, salesman_id.
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp5/assets/119406110/7df64251-b70a-4c9c-a579-6d06b7c5c0e9)
+
+## 7.Write a SQL Query to Add attribute "mobilenumber"  in the table Companies 
+
+![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/e1cc8427-218e-4dba-87ff-32dadc5b8547)
+
 
 
   
   **ANSWER Query:**
 
  ```
-SELECT *
-FROM orders
-WHERE salesman_id IN
-    (SELECT salesman_id 
-     FROM salesman 
-     WHERE city='New York');
+ALTER TABLE Companies
+ADD COLUMN mobilenumber number;
+
+);
+
   ```
 
 
 **OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp5/assets/119406110/83fe64c7-332d-4392-ae51-2342befd666e)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/3a261dd1-b201-4d4e-be91-f4a4aad35b31)
 
-## 7.Write a SQL query to Find employees who have an age less than the average age of employees with incomes over 1 million
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp5/assets/119406110/48153e82-4c0c-46c3-bdc2-9727ddad7114)
+
+## 8.Write a SQL Query for inserting the below values as multiple row format in the table "Student"
+
+![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/1a0f031a-43a9-4274-a972-87a492f27a86)
 
 
   
   **ANSWER Query:**
 
  ```
-SELECT *
-FROM employee
-WHERE age < (SELECT AVG(age) FROM employee WHERE income > 1000000);
+INSERT INTO Student(RollNo, NAME, Gender, Subject, MARKS,year)
+VALUES(3,'Jeni','Female','English',96,3),
+(4,'Bob Johnson','Male','History',90,3),
+(5,'Sharvesh', 'Male','Botany', 97,3),
+(6 ,'Mathew', 'Male','Science',85,3);
+
   ```
 
 
 **OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp5/assets/119406110/e7033636-dfd6-4fa6-998c-639fb1ffdfb2)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/7ab9d596-24a5-454a-a543-a34a5b64926f)
 
-## 8.From the following tables, write a SQL query to find all orders generated by the salespeople who may work for customers whose id is 3007. Return ord_no, purch_amt, ord_date, customer_id, salesman_id.
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp5/assets/119406110/e097e58e-6409-4057-86ee-4394a804fe28)
+
+## 9.Write a SQL Query for inserting the below values in the table "Student" with out multiple rows options
+
+![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/cf011741-cef2-4bd3-bd82-da5b3aa31549)
+
 
 
   
   **ANSWER Query:**
 
  ```
-SELECT *
-FROM orders
-WHERE salesman_id IN 
-    (SELECT salesman_id 
-     FROM orders 
-     WHERE customer_id = 3007);
+INSERT INTO Student(RollNo, NAME, Gender, Subject, MARKS,year)
+VALUES(3,'Jeni','Female','English',96,1),
+(4,'Bob Johnson','Male','History',90,1),
+(5,'Sharvesh', 'Male','Botany', 97,1),
+(6 ,'Mathew', 'Male','Science',85,1);
+);
+
   ```
 
 
 **OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp5/assets/119406110/1212ce3f-d425-48f2-b9af-c559bbb176f7)
+![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/d8d4c0ba-10a8-4308-a78f-709fbb3486ea)
 
 
-## 9.From the following tables, write a SQL query to find all the orders issued by the salesman 'Paul Adam'. Return ord_no, purch_amt, ord_date, customer_id and salesman_id.
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp5/assets/119406110/00bb2819-fadd-423f-a46f-b4b1221379a7)
+## 10.Write a SQL query for inserting new customer details (customer_id, name, email) from the 'old_customers' table into the 'new_customers' table with the subquery. Ensure that only customer email as "---@gmail.com"are included in the transfer.
+
+![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/94a2d925-252d-4aed-a633-38a7784c3e33)
+
 
 
   
   **ANSWER Query:**
 
  ```
-SELECT *
-FROM orders
-WHERE salesman_id =
-    (SELECT salesman_id 
-     FROM salesman 
-     WHERE name='Paul Adam');
+INSERT INTO new_customers (customer_id, name, email)
+SELECT customer_id, name, email
+FROM old_customers
+WHERE email LIKE '%@gmail.com';
+
   ```
 
 
 **OUTPUT:**
 
-![image](https://github.com/LOKESHKUMARARI/dbmsexp5/assets/119406110/05dce0f5-9af4-4d5b-b626-7d4d323221e7)
-
-
-## 10.From the following tables write a SQL query to find all orders generated by London-based salespeople. Return ord_no, purch_amt, ord_date, customer_id, salesman_id.
-
-![image](https://github.com/LOKESHKUMARARI/dbmsexp5/assets/119406110/5616288a-1e08-4cfd-92ab-2d41355b41dc)
-
-
-  
-  **ANSWER Query:**
-
- ```
-SELECT *
-FROM orders
-WHERE salesman_id IN
-    (SELECT salesman_id 
-     FROM salesman 
-     WHERE city='London');
-  ```
-
-
-**OUTPUT:**
-
-![image](https://github.com/LOKESHKUMARARI/dbmsexp5/assets/119406110/9546fa83-302b-4873-b851-26339f713197)
-
+![image](https://github.com/LOKESHKUMARARI/dbmsexp2/assets/119406110/ecbe08eb-7655-4e4c-a9e7-6a438b8c6f41) 
 
 ## Result:
 
-Studying and Implementing  of Sub queries Views is done successfully.
+Studying and Implementing  DDL commands and different types of constraint is done successfully.
+
+
+
+
+
+
+
+
+
+
 
 
 
